@@ -14,7 +14,7 @@
     "ingest": "node --env-file-if-exists=.env.local scripts/ingest.mjs",
     "ask": "node --env-file-if-exists=.env.local scripts/ask.mjs",
     "check": "node --check agent/agent.mjs && node --check board/server.mjs",
-    "test": "node --test test/*.test.mjs"
+    "test": "node --env-file-if-exists=test/.env.test --test test/*.test.mjs"
   },
   "dependencies": {
     "@livekit/agents": "1.8.0",

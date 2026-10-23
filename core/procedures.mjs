@@ -59,7 +59,8 @@ export function search(index, query, k = 3) {
 let cached;
 export function loadIndex() {
   if (cached) return cached;
-  const file = fs.existsSync(INDEX) ? INDEX : SAMPLE;
+  // LINECHECK_SAMPLE=1 forces the bundled sample data (the tests use it).
+  const file = fs.existsSync(INDEX) && !process.env.LINECHECK_SAMPLE ? INDEX : SAMPLE;
   const chunks = JSON.parse(fs.readFileSync(file, 'utf8'));
   cached = { ...buildIndex(chunks), sample: file === SAMPLE, file };
   return cached;

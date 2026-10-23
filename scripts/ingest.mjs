@@ -42,8 +42,15 @@ async function pdfChunks(file) {
     // Split the page into chunks; each chunk inherits the most recent heading seen before it.
     for (let start = 0; start < text.length; start += CHUNK - OVERLAP) {
       const piece = text.slice(start, start + CHUNK);
-      for (const m of text.slice(0, start + CHUNK).matchAll(HEADING)) { section = m[1]; title = m[2].trim(); }
-      chunks.push({ source, section, title, page: p, text: piece.replace(/\n/g, ' ') });
+      // Label the chunk with the section it opens in: the first heading inside it if it starts with one,
+      // otherwise the last heading before it. Then carry the last heading inside it forward.
+      const inside = [...piece.matchAll(HEADING)];
+      const label = inside.length && inside[0].index < 80 ? [inside[0][1], inside[0][2].trim()] : [section, title];
+      if (inside.length) { section = inside.at(-1)[1]; title = inside.at(-1)[2].trim(); }
+      // Skip table-of-contents and index pages: rows of dot leaders.
+      if ((piece.match(/\.{5,}/g) || []).length < 3) {
+        chunks.push({ source, section: label[0], title: label[1], page: p, text: piece.replace(/\n/g, ' ') });
+      }
       if (start + CHUNK >= text.length) break;
     }
     if (p % 50 === 0) console.log(`  ${source}: page ${p}/${doc.numPages}`);

@@ -58,7 +58,8 @@ export function normaliseSdr(csvText) {
 let cached;
 function load() {
   if (cached) return cached;
-  const file = fs.existsSync(INDEX) ? INDEX : SAMPLE;
+  // LINECHECK_SAMPLE=1 forces the bundled sample data (the tests use it).
+  const file = fs.existsSync(INDEX) && !process.env.LINECHECK_SAMPLE ? INDEX : SAMPLE;
   const rows = JSON.parse(fs.readFileSync(file, 'utf8'));
   cached = { rows: rows.map(r => ({ r, terms: new Set(tokenize(`${r.part_name} ${r.location} ${r.condition} ${r.description}`)) })), sample: file === SAMPLE };
   return cached;
