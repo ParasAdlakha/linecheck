@@ -123,6 +123,7 @@ export default defineAgent({
     });
     session.on(voice.AgentSessionEventTypes.AgentStateChanged, e => { speaking = e.newState === 'speaking'; });
     ctx.addShutdownCallback(async () => {
+      await postEvent('call_ended', {}, 'FaceTime call ended');
       clearInterval(timer);
       video.stop();
       await session.close();

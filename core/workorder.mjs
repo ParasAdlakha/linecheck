@@ -6,6 +6,7 @@ export function newWorkOrder(id = `WO-${new Date().toISOString().slice(0, 10).re
     id,
     opened_at: new Date().toISOString(),
     status: 'draft',
+    live: false,
     aircraft: { tail: '', type: '' },
     component: '',
     ata_chapter: '',
@@ -31,6 +32,10 @@ export function applyEvent(wo, event) {
   switch (event.type) {
     case 'call_started':
       next.timeline = [];
+      next.live = true;
+      break;
+    case 'call_ended':
+      next.live = false;
       break;
     case 'aircraft':
       next.aircraft = { tail: p.tail ?? next.aircraft.tail, type: p.type ?? next.aircraft.type };
