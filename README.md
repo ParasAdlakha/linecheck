@@ -8,6 +8,8 @@ Built by **Paras Adlakha** and **Harshita Adlakha** for the **Beta Fund × AWS �
 
 **▶ [Watch a replay of a real call](https://parasadlakha.github.io/linecheck/)**: the work-order board replays our recorded FaceTime demo step by step, in your browser, no setup needed.
 
+**📑 Hackathon slides:** [PDF](docs/slides/LineCheck-slides.pdf) · [PowerPoint](docs/slides/LineCheck-slides.pptx) (the three slides we submitted: who we are, what we are solving, why our team)
+
 ![The LineCheck work-order board after a call](docs/board.png)
 
 *The live work-order board after a real FaceTime call: the nine-step pipeline across the top, the inspected photo and findings on the left, the draft record, manual citations, airworthiness directives and service history on the right.*
