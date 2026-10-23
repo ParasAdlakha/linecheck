@@ -1,0 +1,51 @@
+[
+  {
+    "source": "SAMPLE paraphrase of AC 43.13-1B",
+    "section": "Ch. 6",
+    "title": "Corrosion: identification on aluminium alloys",
+    "page": null,
+    "text": "SAMPLE DATA, not the official text. Corrosion on aluminium alloy skins and fittings usually shows as white or grey powdery deposits, pitting, or blistered and lifted paint, often around fasteners and at faying surfaces where moisture is trapped. Remove deposits and coatings by approved mechanical or chemical means, then inspect the cleaned area with a magnifier to judge pit depth. Measure the remaining material thickness and compare it against the manufacturer's damage limits before deciding on blend-out or repair. Treat the cleaned surface and restore the protective finish."
+  },
+  {
+    "source": "SAMPLE paraphrase of AC 43.13-1B",
+    "section": "Ch. 6",
+    "title": "Corrosion: fastener and filiform corrosion",
+    "page": null,
+    "text": "SAMPLE DATA, not the official text. Filiform corrosion appears as thread-like lines under paint, frequently starting at rivet heads and skin edges. Dark staining or a ring of bubbled paint around a rivet head can indicate corrosion between the fastener and the skin. Inspect neighbouring fasteners in the same row. Where corrosion has reduced the fastener or hole, the fastener may need removal, hole clean-up and replacement with the next oversize per the structural repair data."
+  },
+  {
+    "source": "SAMPLE paraphrase of AC 43.13-1B",
+    "section": "Ch. 4",
+    "title": "Metal structure: dents and cracks in skins",
+    "page": null,
+    "text": "SAMPLE DATA, not the official text. Assess dents by measuring depth, diameter and distance to the nearest fastener row, stiffener or frame. A crack, crease or sharp-bottomed dent is treated differently from a smooth shallow dent. Cracks are typically stop-drilled at each end after the crack tips are found with dye penetrant or eddy current, and then repaired with a reinforcing doubler sized from the repair data. Record location by station, waterline and buttock line."
+  },
+  {
+    "source": "SAMPLE paraphrase of AC 43.13-1B",
+    "section": "Ch. 11",
+    "title": "Electrical: wire harness chafing and clamping",
+    "page": null,
+    "text": "SAMPLE DATA, not the official text. Inspect wire bundles for chafing where they pass structure, at clamps and at grommets. Signs include worn or cut insulation, exposed conductor, discoloured or heat-damaged insulation and loose or missing clamps. Damaged wires are repaired with approved splices or replaced. Maintain clearance from structure, fluid lines and moving controls, and replace cushioned clamps that have lost their cushion."
+  },
+  {
+    "source": "SAMPLE paraphrase of AC 43.13-1B",
+    "section": "Ch. 11",
+    "title": "Electrical: connector and terminal corrosion",
+    "page": null,
+    "text": "SAMPLE DATA, not the official text. Corroded connector pins and terminals show green or white deposits, pitting and discolouration and can cause intermittent faults. Disconnect power, inspect pins and sockets for bent, pushed-back or corroded contacts, and clean or replace contacts with approved tools. Check the backshell and strain relief and verify the seal is intact."
+  },
+  {
+    "source": "SAMPLE paraphrase of AC 43.13-1B",
+    "section": "Ch. 7",
+    "title": "Hardware: safety wire and cotter pins",
+    "page": null,
+    "text": "SAMPLE DATA, not the official text. Safety wire must pull in the tightening direction of the fastener, with the correct number of twists and a pigtail bent back to avoid snagging. Cotter pins must be the correct size and properly spread. Missing, broken or incorrectly installed safety devices are replaced; never reuse safety wire or cotter pins."
+  },
+  {
+    "source": "SAMPLE paraphrase of AC 43.13-1B",
+    "section": "Ch. 9",
+    "title": "Hydraulic and fuel lines: leaks and fittings",
+    "page": null,
+    "text": "SAMPLE DATA, not the official text. Inspect rigid and flexible lines for leaks, dents, nicks, kinks and chafing, and fittings for staining that indicates seepage. Do not over-torque a leaking fitting to stop a leak; find the cause. Flexible hoses are replaced if they show cracking, bulging, or weather checking that exposes reinforcement. Keep clearance from adjacent lines and structure."
+  }
+]

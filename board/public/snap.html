@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LineCheck Snap</title>
+<style>
+:root{--bg:#10141a;--ink:#e5e8ed;--muted:#97a1b0;--amber:#f0a540;--green:#5cc28a;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:var(--bg);color:var(--ink);font:17px/1.5 system-ui,sans-serif;display:flex;flex-direction:column;gap:20px;padding:28px max(16px,env(safe-area-inset-left))}
+h1{margin:0;font-size:1.6rem}
+p{margin:0;color:var(--muted)}
+label{display:flex;align-items:center;justify-content:center;min-height:42vh;border:2px dashed var(--muted);font-size:1.3rem;font-weight:600;cursor:pointer;text-align:center;padding:16px}
+input{position:absolute;opacity:0;width:1px;height:1px}
+label:focus-within{outline:3px solid var(--amber)}
+#msg{font-weight:600;min-height:1.5em}
+#msg.ok{color:var(--green)}
+img{max-width:100%;border:1px solid #2b3340}
+</style>
+</head>
+<body>
+<h1>Send a photo to LineCheck</h1>
+<p>Take a close, well-lit photo of the part. Then say "take a look" on the call.</p>
+<label for="cam">Tap to take a photo<input id="cam" type="file" accept="image/*" capture="environment"></label>
+<div id="msg" role="status"></div>
+<img id="preview" alt="Photo you sent" hidden>
+<script>
+const cam = document.getElementById('cam'), msg = document.getElementById('msg'), preview = document.getElementById('preview');
+
+// Phone photos are large; shrink to 1600 px on the long side before sending.
+async function shrink(file) {
+  const bmp = await createImageBitmap(file);
+  const scale = Math.min(1, 1600 / Math.max(bmp.width, bmp.height));
+  const c = document.createElement('canvas');
+  c.width = Math.round(bmp.width * scale); c.height = Math.round(bmp.height * scale);
+  c.getContext('2d').drawImage(bmp, 0, 0, c.width, c.height);
+  return new Promise(r => c.toBlob(r, 'image/jpeg', 0.85));
+}
+
+cam.addEventListener('change', async () => {
+  const file = cam.files[0];
+  if (!file) return;
+  msg.className = ''; msg.textContent = 'Sending…';
+  try {
+    const blob = await shrink(file).catch(() => file);
+    const res = await fetch('/api/snap', { method: 'POST', headers: { 'Content-Type': blob.type || 'image/jpeg' }, body: blob });
+    if (!res.ok) throw new Error((await res.json()).error || res.statusText);
+    preview.src = URL.createObjectURL(blob); preview.hidden = false;
+    msg.className = 'ok'; msg.textContent = 'Sent. Say "take a look" on the call.';
+  } catch (err) {
+    msg.textContent = `Not sent: ${err.message}. Check you are on the same Wi-Fi as the board and try again.`;
+  }
+  cam.value = '';
+});
+</script>
+</body>
+</html>
