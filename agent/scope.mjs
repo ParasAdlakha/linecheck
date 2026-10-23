@@ -12,7 +12,8 @@ export const STATE_COLORS = {
   finding: [230, 80, 60],     // red: a finding worth attention was logged
 };
 
-const BG = [14, 20, 28], GRID = [28, 38, 50];
+// Mid-tone slate rather than near-black: FaceTime's compression turns very dark frames into what looks like no picture.
+const BG = [38, 52, 68], GRID = [58, 74, 92];
 
 export function drawScope(tick, state = 'listening', level = 0) {
   const px = new Uint8Array(WIDTH * HEIGHT * 4);
@@ -25,8 +26,8 @@ export function drawScope(tick, state = 'listening', level = 0) {
     for (let x = 0; x < WIDTH; x++) {
       let c = (x % 40 === 0 || y % 40 === 0) ? GRID : BG;
       const dx = x - cx, dy = y - cy, d = Math.hypot(dx, dy);
-      if (Math.abs(d - r1) < 2 || Math.abs(d - r2) < 1.2) c = ink;
-      if ((Math.abs(dx) < 1.2 && d > 20 && d < r1 + 30) || (Math.abs(dy) < 1.2 && d > 20 && d < r1 + 30)) c = ink;
+      if (Math.abs(d - r1) < 4 || Math.abs(d - r2) < 3) c = ink;
+      if ((Math.abs(dx) < 2.5 && d > 20 && d < r1 + 30) || (Math.abs(dy) < 2.5 && d > 20 && d < r1 + 30)) c = ink;
       if (state === 'looking' || state === 'searching') {
         let a = Math.atan2(dy, dx) - sweep;
         a = ((a % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);

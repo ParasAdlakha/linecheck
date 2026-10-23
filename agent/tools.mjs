@@ -7,6 +7,8 @@ import { inspectImage } from '../core/vision.mjs';
 import { encodePng, downscale } from '../core/png.mjs';
 import { postEvent, latestUpload, savePhoto } from '../core/board-client.mjs';
 
+const UPLOAD_WAIT_MS = 25000;
+
 /**
  * @param {{ grabFrame: () => ({rgba: Uint8Array, width: number, height: number} | null), setState: (s: string) => void }} io
  */
@@ -23,7 +25,13 @@ export function createTools(io) {
       io.setState('looking');
       try {
         // Prefer a photo the technician just uploaded (sharper than video), then the live FaceTime video.
-        const upload = await latestUpload(lastLookAt);
+        // Chert's bridge currently carries only the caller's audio, so with no video frame we wait
+        // briefly for a photo from the /snap page before giving up.
+        let upload = await latestUpload(lastLookAt);
+        for (let waited = 0; !upload?.dataUrl && !io.grabFrame() && waited < UPLOAD_WAIT_MS; waited += 1000) {
+          await new Promise(r => setTimeout(r, 1000));
+          upload = await latestUpload(lastLookAt);
+        }
         let imageDataUrl, photo, source;
         if (upload?.dataUrl) {
           ({ dataUrl: imageDataUrl, url: photo } = upload); source = 'uploaded photo';
@@ -31,7 +39,7 @@ export function createTools(io) {
           const frame = io.grabFrame();
           if (!frame) {
             io.setState('listening');
-            return { error: 'no_image', say: 'I can\'t see your camera yet. Switch to a FaceTime video call, or open the LineCheck snap page on your phone and send me a photo.' };
+            return { error: 'no_image', say: 'I didn\'t get a photo. Open the LineCheck snap page on your phone, take the photo, then say take a look again.' };
           }
           const small = downscale(frame.rgba, frame.width, frame.height, 1024);
           const png = encodePng(small.rgba, small.width, small.height);
