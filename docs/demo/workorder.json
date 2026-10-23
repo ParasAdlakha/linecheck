@@ -1,0 +1,160 @@
+{
+ "id": "WO-20261023-UECP",
+ "opened_at": "2026-10-23T20:25:53.775Z",
+ "status": "signed",
+ "aircraft": {
+  "tail": "734AD",
+  "type": "Cessna 172"
+ },
+ "component": "rivet line on fuselage skin",
+ "ata_chapter": "",
+ "discrepancy": "Corrosion observed around rivet edges on fuselage skin rivet line.",
+ "findings": [
+  {
+   "type": "corrosion (surface/rust)",
+   "location": "across the riveted panels and concentrated around rivet heads",
+   "severity": "significant",
+   "confidence": 0.92,
+   "evidence": "widespread orange-brown discoloration and flaking visible on panel surfaces and surrounding rivet heads",
+   "at": "2026-10-23T20:30:12.288Z"
+  },
+  {
+   "type": "paint/finish deterioration",
+   "location": "around and between rivets along the joint",
+   "severity": "significant",
+   "confidence": 0.9,
+   "evidence": "areas of paint loss, blistering and peeling exposing underlying metal",
+   "at": "2026-10-23T20:30:12.288Z"
+  },
+  {
+   "type": "corrosion staining / runoff",
+   "location": "vertical dark streaks below several rivet rows",
+   "severity": "monitor",
+   "confidence": 0.88,
+   "evidence": "dark, drip-like streaks running down from the rivet line consistent with corrosion product runoff",
+   "at": "2026-10-23T20:30:12.288Z"
+  },
+  {
+   "type": "possible rivet head pitting / surface degradation",
+   "location": "multiple rivet heads in the photographed area",
+   "severity": "significant",
+   "confidence": 0.78,
+   "evidence": "rivets show uneven, darkened surfaces and possible pitting compared with surrounding metal",
+   "at": "2026-10-23T20:30:12.288Z"
+  }
+ ],
+ "photos": [
+  {
+   "url": "demo/photo.jpg",
+   "at": "2026-10-23T20:30:12.288Z"
+  }
+ ],
+ "references": [
+  {
+   "citation": "AC 43.13-1B §6-69, p.287",
+   "title": "EXTERNAL SKIN AREAS",
+   "excerpt": "AC 43.13-1B 9/8/98  f. Inspect thick alloy skin surfaces for pitting, intergranular corrosion, and exfoliation of the metal. Look for white or gray deposits around countersunk fastener heads and raised areas or bumps under the paint film.  g. Inspect composite skins for corrosion of attachment faste"
+  },
+  {
+   "citation": "AC 43.13-1B §6-63, p.286",
+   "title": "GENERAL",
+   "excerpt": "9/8/98 AC 43.13-1B  SECTION 5. VISUAL CORROSION INSPECTION GUIDE FOR AIRCRAFT  6-63. GENERAL. This guide provides a general inspection checklist for those parts or surfaces that can be visually inspected without disassembly of the aircraft. It is intended for use in establishing corrosion inspection"
+  },
+  {
+   "citation": "AC 43.13-1B §6-69, p.286",
+   "title": "EXTERNAL SKIN AREAS",
+   "excerpt": "and wheel web areas; and exposed rigid tubing at “B” nuts and fer rules under clamps, and tubing identification tapes.  6-69. EXTERNAL SKIN AREAS.  a. Inspect external skin surfaces for damage to protective finishes and corrosion.  b. Inspect around fasteners for damage to protective finishes and co"
+  }
+ ],
+ "airworthiness_directives": [
+  {
+   "title": "Airworthiness Directives; Cessna Aircraft Company Airplanes",
+   "url": "https://federalregister.gov/documents/2015/08/25/2015-20692/airworthiness-directives-cessna-aircraft-company-airplanes"
+  },
+  {
+   "title": "Airworthiness Directives; Cessna Aircraft Company Models 172R, 172S, 182S, 182T, T182T, 206H, and T206H Airplanes",
+   "url": "https://federalregister.gov/documents/2007/03/07/E7-3834/airworthiness-directives-cessna-aircraft-company-models-172r-172s-182s-182t-t182t-206h-and-t206h"
+  },
+  {
+   "title": "Airworthiness Directives; Cessna Aircraft Company Model 172 and 182 Series Airplanes",
+   "url": "https://federalregister.gov/documents/2007/11/02/E7-21571/airworthiness-directives-cessna-aircraft-company-model-172-and-182-series-airplanes"
+  },
+  {
+   "title": "Airworthiness Directives; Textron Aviation Inc. Airplanes",
+   "url": "https://federalregister.gov/documents/2018/02/01/2018-01923/airworthiness-directives-textron-aviation-inc-airplanes"
+  },
+  {
+   "title": "Airworthiness Directives; Cessna Aircraft Company (Cessna) 172, 175, 177, 180, 182, 185, 206, 207, 208, 210, 303, 336, and 337 Series Airplanes",
+   "url": "https://federalregister.gov/d/2010-28579"
+  }
+ ],
+ "known_failures": {
+  "total": 4,
+  "top_conditions": [
+   {
+    "condition": "CORRODED",
+    "count": 3
+   },
+   {
+    "condition": "CRACKED",
+    "count": 1
+   }
+  ],
+  "sample_data": true
+ },
+ "proposed_action": "Remove corrosion, treat affected area, and refinish per AC 43.13-1B §6-69.",
+ "signoff": {
+  "name": "Paras Adlakha",
+  "certificate": "123",
+  "decision": "accepted",
+  "at": "2026-10-23T20:32:18.108Z"
+ },
+ "timeline": [
+  {
+   "at": "2026-10-23T20:29:00.663Z",
+   "type": "call_started",
+   "note": "FaceTime call connected"
+  },
+  {
+   "at": "2026-10-23T20:29:23.471Z",
+   "type": "aircraft",
+   "note": "734AD Cessna 172"
+  },
+  {
+   "at": "2026-10-23T20:29:42.060Z",
+   "type": "photo_uploaded",
+   "note": "Photo received from phone"
+  },
+  {
+   "at": "2026-10-23T20:30:12.288Z",
+   "type": "inspection",
+   "note": "Extensive surface corrosion and paint loss around rivets with drip staining and possible rivet pitting; recommend paint removal and detailed inspection of the lap joint and rivets."
+  },
+  {
+   "at": "2026-10-23T20:30:28.390Z",
+   "type": "procedure",
+   "note": "corrosion around rivet edges on Cessna 172 skin"
+  },
+  {
+   "at": "2026-10-23T20:30:33.236Z",
+   "type": "known_failures",
+   "note": "Cessna 172 rivet corrosion on skin"
+  },
+  {
+   "at": "2026-10-23T20:31:44.420Z",
+   "type": "ads",
+   "note": "airworthiness directive Cessna 172 rivet corrosion on skin"
+  },
+  {
+   "at": "2026-10-23T20:32:02.601Z",
+   "type": "draft",
+   "note": "Draft ready for sign-off"
+  },
+  {
+   "at": "2026-10-23T20:32:18.108Z",
+   "type": "signoff",
+   "note": "Signed by Paras Adlakha"
+  }
+ ],
+ "live": false
+}

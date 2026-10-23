@@ -6,6 +6,8 @@ A technician FaceTimes LineCheck with their hands still on the aircraft. LineChe
 
 Built by **Paras Adlakha** and **Harshita Adlakha** for the **Beta Fund × AWS × OpenAI Multi-Model Hackathon**, October 23, 2026.
 
+**▶ [Watch a replay of a real call](https://parasadlakha.github.io/linecheck/)**: the work-order board replays our recorded FaceTime demo step by step, in your browser, no setup needed.
+
 ![The LineCheck work-order board after a call](docs/board.png)
 
 *The live work-order board after a real FaceTime call: the nine-step pipeline across the top, the inspected photo and findings on the left, the draft record, manual citations, airworthiness directives and service history on the right.*
