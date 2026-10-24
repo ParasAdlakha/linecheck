@@ -8,6 +8,8 @@ Built by **Paras Adlakha** and **Harshita Adlakha** for the **Beta Fund × AWS �
 
 **▶ [Watch a replay of a real call](https://parasadlakha.github.io/linecheck/)**: the work-order board replays our recorded FaceTime demo step by step, in your browser, no setup needed.
 
+**🎬 [Two-minute demo video](docs/video/LineCheck-demo-2min.mp4)** (a real FaceTime call, filmed live) · [Three-minute version](docs/video/LineCheck-demo-3min.mp4) · [Project page](https://parasadlakha.github.io/linecheck/project/)
+
 **📑 Hackathon slides:** [PDF](docs/slides/LineCheck-slides.pdf) · [PowerPoint](docs/slides/LineCheck-slides.pptx) (the three slides we submitted: who we are, what we are solving, why our team)
 
 ![The LineCheck work-order board after a call](docs/board.png)
@@ -292,7 +294,7 @@ scripts/
   ingest.mjs       Builds the manual and SDR indexes from data/raw/
   ask.mjs          Runs any tool from the terminal
 data/sample/       Clearly labelled sample passages and SDR rows
-docs/              Screenshots used in this README
+docs/              Replay (index.html), project page (project/), demo videos (video/), slides, screenshots
 test/              Unit tests (node --test)
 ```
 

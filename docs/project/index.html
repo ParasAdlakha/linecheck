@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LineCheck · An AI inspector you FaceTime</title>
+<meta name="description" content="An AI inspector aircraft technicians call on FaceTime: sees the part, cites FAA AC 43.13-1B, checks SDRs and ADs, drafts the work order. Built at the Beta Fund × AWS × OpenAI Multi-Model Hackathon.">
+<meta property="og:image" content="../img/linkedin-cover.png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 22'%3E%3Crect width='22' height='22' fill='%230b0c0f'/%3E%3Ccircle cx='11' cy='11' r='8' fill='none' stroke='%23ff6b35' stroke-width='2'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap">
+<style>
+/* Project page: one reading column, wide media. Dark only, matching the work-order board. */
+:root{--canvas:#0b0c0f;--dot:#1c1f26;--panel:#121419;--line:#242832;--line-2:#2f3440;--ink:#eceef2;--ink-2:#a4abb8;--ink-3:#6b7280;--signal:#ff6b35;--ok:#4ade80;
+  --sans:"Geist",ui-sans-serif,system-ui,sans-serif;--mono:"Geist Mono",ui-monospace,Consolas,monospace;color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--canvas);color:var(--ink);font:16px/1.6 var(--sans);-webkit-font-smoothing:antialiased;background-image:radial-gradient(var(--dot) 1px,transparent 1px);background-size:22px 22px}
+a{color:var(--signal)}
+.wrap{max-width:1080px;margin:0 auto;padding:24px 16px 80px;display:flex;flex-direction:column;gap:64px}
+nav{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;font:600 1.2rem/1 var(--sans);color:var(--ink);text-decoration:none}
+.links{display:flex;gap:8px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:10px;font-weight:600;text-decoration:none;border:1px solid var(--line-2);background:var(--panel);color:var(--ink)}
+.btn.hot{background:var(--signal);border-color:var(--signal);color:#0b0c0f}
+h1,h2,h3{margin:0;letter-spacing:-.025em;line-height:1.05;text-wrap:balance}
+h1{font-size:clamp(2.3rem,6vw,4rem);font-weight:700}
+h1 em{font-style:normal;color:var(--signal)}
+h2{font-size:clamp(1.6rem,3.5vw,2.3rem);font-weight:650}
+p{margin:0;max-width:68ch}
+.lede{font-size:1.15rem;color:var(--ink-2)}
+.tag{font:500 .75rem/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--signal)}
+section{display:flex;flex-direction:column;gap:20px}
+img,video{max-width:100%;display:block;border-radius:14px;border:1px solid var(--line-2);background:#000}
+video{width:100%}
+.cap{font-size:.9rem;color:var(--ink-3)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.stat,.step,.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;min-width:0}
+.stat b{display:block;font:700 2rem/1.1 var(--sans);letter-spacing:-.02em}
+.stat span,.step span,.card p{color:var(--ink-2);font-size:.95rem}
+.stat small{display:block;margin-top:8px;font:500 .72rem/1.3 var(--mono);color:var(--ink-3)}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.step{display:flex;flex-direction:column;gap:6px}
+.step small{font:500 .72rem/1 var(--mono);color:var(--signal);letter-spacing:.08em}
+.step b{font-size:1.05rem}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.pair figure{margin:0;display:flex;flex-direction:column;gap:8px}
+.boundary{border-left:3px solid var(--signal);padding:18px 22px;background:var(--panel);border-radius:0 14px 14px 0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.card h3{font-size:1.1rem;margin-bottom:6px}
+.scroll{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--panel)}
+table{width:100%;border-collapse:collapse;font-size:.95rem;min-width:560px}
+td,th{padding:11px 14px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+tr:last-child td{border-bottom:0}
+th{font:500 .72rem/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+footer{color:var(--ink-3);font-size:.9rem;border-top:1px solid var(--line);padding-top:20px}
+@media (max-width:720px){.pair,.grid2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <a class="brand" href="#"><svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><circle cx="11" cy="11" r="9" fill="none" stroke="#ff6b35" stroke-width="1.6"/><circle cx="11" cy="11" r="4.5" fill="none" stroke="#eceef2" stroke-width="1.2"/><path d="M11 0v5M11 17v5M0 11h5M17 11h5" stroke="#eceef2" stroke-width="1.2"/></svg>LineCheck</a>
+    <div class="links">
+      <a class="btn hot" href="../">Replay a real call</a>
+      <a class="btn" href="../slides/LineCheck-slides.pdf">Slides</a>
+      <a class="btn" href="https://github.com/ParasAdlakha/linecheck">Code</a>
+    </div>
+  </nav>
+
+  <section>
+    <span class="tag">Beta Fund × AWS × OpenAI · Multi-Model Hackathon · Oct 23, 2026 · Multi-Modal Agents</span>
+    <h1>An AI inspector aircraft technicians <em>call on FaceTime.</em></h1>
+    <p class="lede">A technician FaceTimes LineCheck with their hands still on the aircraft. It takes the tail number by voice, inspects a photo of the part, cites the exact section of the FAA repair manual, checks service difficulty history and airworthiness directives, and drafts the work order. A certificated mechanic reviews and signs.</p>
+  </section>
+
+  <section>
+    <video controls preload="metadata" poster="../img/live-call.jpg" src="../video/LineCheck-demo-2min.mp4"></video>
+    <p class="cap">Two-minute recording of a real FaceTime call with LineCheck, filmed live. A <a href="../video/LineCheck-demo-3min.mp4">three-minute version</a> shows the full call. Or <a href="../">replay the call on the work-order board</a>, step by step.</p>
+  </section>
+
+  <section>
+    <span class="tag">The problem</span>
+    <h2>Fewer senior technicians, more errors on every shift</h2>
+    <div class="stats">
+      <div class="stat"><b style="color:var(--signal)">43,000–47,000</b><span>aircraft technician shortfall projected by 2027</span><small>Oliver Wyman</small></div>
+      <div class="stat"><b>96%</b><span>of 619 maintenance safety occurrences involved technician actions; memory lapses tracked fatigue</span><small>Hobbs &amp; Williamson, Human Factors, 2003</small></div>
+      <div class="stat"><b>$90–97 bn</b><span>global commercial MRO market in 2026</span><small>Visiongain; Precision Aviation Group</small></div>
+    </div>
+  </section>
+
+  <section>
+    <span class="tag">One call</span>
+    <h2>Nine steps, each one traceable on the board</h2>
+    <div class="steps">
+      <div class="step"><small>01 · VOICE</small><b>Call</b><span>FaceTime the line; Chert bridges it into LiveKit</span></div>
+      <div class="step"><small>02 · VOICE</small><b>Aircraft</b><span>"Tail N734AD, Cessna 172"</span></div>
+      <div class="step"><small>03 · IMAGE</small><b>Photo</b><span>Full-resolution photo from the /snap page</span></div>
+      <div class="step"><small>04 · VISION</small><b>Inspect</b><span>Findings with severity, location, confidence</span></div>
+      <div class="step"><small>05 · DOCUMENT</small><b>Manual</b><span>BM25 over all 646 pages of AC 43.13-1B</span></div>
+      <div class="step"><small>06 · DATA</small><b>History</b><span>FAA Service Difficulty Reports</span></div>
+      <div class="step"><small>07 · WEB</small><b>Directives</b><span>Keenable search of the Federal Register</span></div>
+      <div class="step"><small>08 · RECORD</small><b>Draft</b><span>Discrepancy and corrective action, cited</span></div>
+      <div class="step"><small>09 · HUMAN</small><b>Sign-off</b><span>A certificated technician signs</span></div>
+    </div>
+    <img src="../board.png" alt="The LineCheck work-order board after a real call" loading="lazy">
+    <p class="cap">The work-order board after a real call: the pipeline across the top, the inspected photo and findings on the left, the draft record, manual citations, directives and service history on the right.</p>
+  </section>
+
+  <section class="boundary">
+    <span class="tag">The first design decision</span>
+    <p style="font-size:1.1rem">LineCheck assists and documents; it never says a part or an aircraft is airworthy, serviceable or safe to fly. Every record stays a draft until a certificated mechanic signs it.</p>
+  </section>
+
+  <section>
+    <div class="pair">
+      <figure><img src="../img/live-call.jpg" alt="A technician on a live FaceTime call with LineCheck" loading="lazy"><figcaption class="cap">A live FaceTime call: the phone shows LineCheck's inspection reticle while the board fills in.</figcaption></figure>
+      <figure><img src="../img/board-signed.png" alt="The signed work order on the board" loading="lazy"><figcaption class="cap">The signed work order with citations, directives and history.</figcaption></figure>
+    </div>
+  </section>
+
+  <section>
+    <span class="tag">How it is built</span>
+    <h2>Partner technologies</h2>
+    <div class="scroll"><table>
+      <tr><th>Partner</th><th>Role in LineCheck</th></tr>
+      <tr><td>Chert</td><td>The FaceTime line. <code>chert dev</code> keeps a warm room so calls are answered in about 0.1 s; the agent greets on <code>chert_bridge_ready</code></td></tr>
+      <tr><td>LiveKit</td><td>Real-time transport: the agent registers as a worker and joins each call's room</td></tr>
+      <tr><td>OpenAI</td><td><code>gpt-realtime</code> holds the conversation and calls tools; a vision model returns structured findings through a strict JSON schema</td></tr>
+      <tr><td>Keenable</td><td>Live airworthiness directive search, pinned to federalregister.gov, widening to the open web</td></tr>
+      <tr><td>AWS</td><td>Event host; deployment on the roadmap</td></tr>
+    </table></div>
+  </section>
+
+  <section>
+    <span class="tag">Hackathon slides</span>
+    <h2>The three slides we submitted</h2>
+    <p>Who we are, what we are solving, and why our team. <a href="../slides/LineCheck-slides.pdf">PDF</a> · <a href="../slides/LineCheck-slides.pptx">PowerPoint</a></p>
+  </section>
+
+  <section>
+    <span class="tag">Team</span>
+    <div class="grid2">
+      <div class="card"><h3>Paras Adlakha</h3><p>Aerospace, electronics, systems engineering. Agent, vision and data pipeline.</p></div>
+      <div class="card"><h3>Harshita Adlakha</h3><p>System dynamics, socio-technical systems. Research, human factors and product.</p></div>
+    </div>
+  </section>
+
+  <footer>LineCheck is a hackathon prototype for research and demonstration. It is not approved data for maintenance decisions; always follow the manufacturer's instructions and applicable FAA regulations. Sources and full documentation in the <a href="https://github.com/ParasAdlakha/linecheck#readme">README</a>.</footer>
+</div>
+</body>
+</html>
